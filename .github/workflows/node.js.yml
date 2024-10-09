@@ -46,7 +46,7 @@ jobs:
 
       # Install dependencies
       - name: Install dependencies
-        run: bun add
+        run: bun install
 
       # Build the project
       - name: Build
