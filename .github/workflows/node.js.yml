@@ -24,19 +24,34 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "bun" # Change cache to 'bun' for caching Bun dependencies
 
+      # Install Bun
       - name: Install Bun
         run: curl -fsSL https://bun.sh/install | bash
 
+      - name: Cache Bun Dependencies
+        id: bun-cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.bun
+            node_modules
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      # Set up Bun in the environment
       - name: Set up Bun environment
         run: echo "export PATH=\"/home/runner/.bun/bin:\$PATH\"" >> $GITHUB_ENV
 
+      # Install dependencies
       - name: Install dependencies
         run: bun add
 
+      # Build the project
       - name: Build
         run: bun run build
 
+      # Run tests
       - name: Run tests
         run: bun run test
