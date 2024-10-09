@@ -16,10 +16,10 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -27,7 +27,15 @@ jobs:
 
       # Install Bun
       - name: Install Bun
-        run: curl -fsSL https://bun.sh/install | bash
+        run: |
+          curl -fsSL https://bun.sh/install | bash
+          echo "export BUN_INSTALL=\"$HOME/.bun\"" >> $GITHUB_ENV
+          echo "export PATH=\"$BUN_INSTALL/bin:\$PATH\"" >> $GITHUB_ENV
+        shell: bash
+
+      # Load the environment variables
+      - name: Load Bun to PATH
+        run: source $GITHUB_ENV
 
       - name: Cache Bun Dependencies
         id: bun-cache
@@ -39,10 +47,6 @@ jobs:
           key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
           restore-keys: |
             ${{ runner.os }}-bun-
-
-      # Set up Bun in the environment
-      - name: Set up Bun environment
-        run: echo "export PATH=\"/home/runner/.bun/bin:\$PATH\"" >> $GITHUB_ENV
 
       # Install dependencies
       - name: Install dependencies
