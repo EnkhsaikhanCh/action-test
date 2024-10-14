@@ -1,5 +1,4 @@
-name: Test
-run-name: test
+name: Test Workflow
 
 on:
   push:
@@ -26,6 +25,31 @@ jobs:
         run: bun install
 
       - name: Run Jest Tests
-        run: bun run test
+        run: bun run jest
+        env:
+          NODE_ENV: test
+
+      - name: Start Next.js Server
+        run: bun run next start --port 3000 &
+        env:
+          NODE_ENV: test
+
+      - name: Wait for localhost:3000 to be ready
+        run: |
+          n=0
+          until [ $n -ge 20 ]
+          do
+            curl -s http://localhost:3000 && break
+            n=$((n+1))
+            sleep 3
+          done
+
+      - name: Cypress Install
+        uses: cypress-io/github-action@v5
+        with:
+          install: false
+
+      - name: Run Cypress Tests
+        run: bun run cypress run
         env:
           NODE_ENV: test
