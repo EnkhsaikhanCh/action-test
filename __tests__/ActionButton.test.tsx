@@ -5,8 +5,9 @@ import { ActionButton } from "@/components/ActionButton";
 describe("ActionButton", () => {
   it("renders the button with the provided label", () => {
     const label = "Click Me";
+    const href = "/";
     // Render the ActionButton with the label prop
-    render(<ActionButton label={label} />);
+    render(<ActionButton href={href} label={label} />);
     // Find the button by its role and text content
     const button = screen.getByRole("button", { name: label });
     // Assert that the button is in the document

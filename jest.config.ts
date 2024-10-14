@@ -33,17 +33,17 @@ const config: Config = {
     "!src/**/*.d.ts", // Exclude TypeScript declaration files
     "!src/lib/**", // Exclude all files in the `lib` directory
     "!src/components/ui/**", // Exclude all UI components
-    "!src/app/layout.tsx", // Exclude layout file
-    "!src/app/page.tsx", // Exclude page file
   ],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: "coverage",
 
   // An array of regexp pattern strings used to skip coverage collection
-  // coveragePathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "src/app/layout.tsx",
+    "<rootDir>/src/*/.*/page.tsx",
+  ],
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: "v8",
