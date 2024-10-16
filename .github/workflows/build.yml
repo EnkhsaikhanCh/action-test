@@ -1,10 +1,7 @@
-name: Build Workflow
+name: Build
 run-name: build
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
   build:
