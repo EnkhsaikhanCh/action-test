@@ -37,11 +37,11 @@ jobs:
       - name: Wait for localhost:3000 to be ready
         run: |
           n=0
-          until [ $n -ge 20 ]
+          until [ $n -ge 30 ]  # Increase this value for more attempts
           do
             curl -s http://localhost:3000 && break
             n=$((n+1))
-            sleep 3
+            sleep 5  # Increase this value to wait longer between attempts
           done
 
       - name: Cypress Install
