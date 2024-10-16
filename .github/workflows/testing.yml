@@ -35,7 +35,7 @@ jobs:
         with:
           install: false
           browser: chrome
-          record: true
+          record: false
           build: bun run next build
           start: bun run next start --port 3000
           wait-on: "http://localhost:3000"
