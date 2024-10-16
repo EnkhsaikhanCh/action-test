@@ -1,5 +1,4 @@
-name: Test
-run-name: test
+name: Test Workflow
 
 on:
   push:
@@ -26,6 +25,17 @@ jobs:
         run: bun install
 
       - name: Run Jest Tests
-        run: bun run test
+        run: bun run jest
         env:
           NODE_ENV: test
+
+      - name: Run Cypress Tests in Chrome
+        uses: cypress-io/github-action@v5
+        timeout-minutes: 10
+        with:
+          install: false
+          browser: chrome
+          record: false
+          build: bun run next build
+          start: bun run next start --port 3000
+          wait-on: "http://localhost:3000"
