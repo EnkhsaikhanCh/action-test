@@ -8,6 +8,8 @@
     "no-duplicate-case": "error",
     "no-duplicate-imports": "error",
     "no-ex-assign": "error",
-    "no-func-assign": "error"
+    "no-func-assign": "error",
+    "prefer-arrow-callback": ["error"],
+    "func-style": ["error", "expression"]
   }
 }
