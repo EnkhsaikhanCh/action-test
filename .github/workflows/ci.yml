@@ -1,11 +1,21 @@
 name: CI Pipeline
-run-name: CI Pipeline
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - labeled
+    branches:
+      - main
 
 jobs:
   lint:
+    name: Lint | CI Pipeline
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'code ready')
 
     steps:
       - name: Checkout code
@@ -23,8 +33,10 @@ jobs:
         run: bun run lint
 
   build:
+    name: Build | CI Pipeline
     runs-on: ubuntu-latest
     needs: lint
+    if: github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'code ready')
 
     steps:
       - name: Checkout code
@@ -44,8 +56,10 @@ jobs:
           NODE_ENV: production
 
   test:
+    name: Test | CI Pipeline
     runs-on: ubuntu-latest
     needs: build
+    if: github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'code ready')
 
     steps:
       - name: Checkout code
