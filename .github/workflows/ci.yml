@@ -15,7 +15,7 @@ jobs:
   lint:
     name: Lint | CI Pipeline
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'code ready')
+    if: github.event_name == 'push' || github.event.action == 'opened' || contains(github.event.pull_request.labels.*.name, 'code ready')
 
     steps:
       - name: Checkout code
@@ -36,7 +36,7 @@ jobs:
     name: Build | CI Pipeline
     runs-on: ubuntu-latest
     needs: lint
-    if: github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'code ready')
+    if: github.event_name == 'push' || github.event.action == 'opened' || contains(github.event.pull_request.labels.*.name, 'code ready')
 
     steps:
       - name: Checkout code
@@ -59,7 +59,7 @@ jobs:
     name: Test | CI Pipeline
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'code ready')
+    if: github.event_name == 'push' || github.event.action == 'opened' || contains(github.event.pull_request.labels.*.name, 'code ready')
 
     steps:
       - name: Checkout code
