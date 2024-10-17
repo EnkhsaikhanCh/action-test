@@ -1,10 +1,10 @@
-# name: CI Pipeline
+name: "ci: "
 
 on: [push]
 
 jobs:
   lint:
-    name: "ci: lint"
+    name: lint
     runs-on: ubuntu-latest
 
     steps:
@@ -23,7 +23,7 @@ jobs:
         run: bun run lint
 
   build:
-    name: "ci: build"
+    name: build
     runs-on: ubuntu-latest
     needs: lint
 
@@ -45,7 +45,7 @@ jobs:
           NODE_ENV: production
 
   test:
-    name: "ci: test"
+    name: test
     runs-on: ubuntu-latest
     needs: build
 
